@@ -205,6 +205,7 @@ public class login extends AppCompatActivity {
             Iterator entryIterator = prog_keys.entrySet().iterator();
             for (Map.Entry id : prog_keys.entrySet()){
                 String programId = (String) id.getValue();
+                String programKey =(String) id.getKey();
                 Request progDetailsRequest = new Request.Builder()
                         .url(baseUrl + "trackedEntityInstances.json?ou=" + areaId+"&program="+programId)
                         .header("Authorization", "Basic " + authKey)
@@ -225,7 +226,7 @@ public class login extends AppCompatActivity {
                             }
                             Log.i("YYY", childList.toString());
                             for (String child: childList) {
-                                getChildProgramDetails(child,areaId,programId,authKey);
+                                getChildProgramDetails(child,areaId,programKey,authKey);
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
