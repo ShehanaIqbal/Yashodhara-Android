@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".anthropometry_prog">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="1"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_weight="0.17"
+                android:id="@+id/back_img"
+                android:scaleType="fitXY"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:src="@drawable/group16682" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.83"
+                android:layout_below="@+id/back_img"
+                android:background="@color/blue" />
+        </LinearLayout>
+        <RelativeLayout
+            android:id="@+id/view1"
+            android:paddingHorizontal="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="30dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginVertical="10dp"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/back_btn"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="10dp"
+                        android:background="@drawable/background_back_btn"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:onClick="goToHome"
+                        android:padding="10dp"
+                        android:src="@drawable/back" />
+
+                    <TextView
+                        android:id="@+id/title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:layout_toEndOf="@+id/back_btn"
+                        android:text="@string/an_title"
+                        android:textColor="@color/title"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+            </LinearLayout>
+        </RelativeLayout>
+        <!--input boxes start here-->
+        <ScrollView
+            android:layout_below="@+id/view1"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/view1">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="16dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginVertical="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/background_popup_card"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="8dp"
+                        android:weightSum="1">
+
+                        <EditText
+                            android:id="@+id/an_date_of_reg"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="0.8"
+                            android:background="@null"
+                            android:hint="@string/date_of_reg"
+                            android:textColorHint="@color/desc" />
+
+                        <ImageButton
+                            android:id="@+id/an_reg_date_pick"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="0.2"
+                            android:onClick="onClickPickDate"
+                            android:background="@drawable/background_popup_card"
+                            android:src="@drawable/calendar" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginVertical="5dp"
+                        android:background="@drawable/background_supp"
+                        android:paddingHorizontal="30dp"
+                        android:paddingVertical="5dp"
+                        android:text="@string/an_stage"
+                        android:textColor="@color/blue_title_text"
+                        android:textSize="17sp"
+                        android:textStyle="bold" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginVertical="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/background_popup_card"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="8dp"
+                        android:weightSum="1">
+
+                        <EditText
+                            android:id="@+id/an_date"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="0.8"
+                            android:background="@null"
+                            android:hint="@string/an_date"
+                            android:textColorHint="@color/desc" />
+
+                        <ImageButton
+                            android:id="@+id/an_date_pick"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="0.2"
+                            android:onClick="onClickPickDate"
+                            android:background="@drawable/background_popup_card"
+                            android:src="@drawable/calendar" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginVertical="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/background_popup_card"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="8dp"
+                        android:weightSum="1">
+
+                        <EditText
+                            android:id="@+id/an_weight"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="0.8"
+                            android:background="@null"
+                            android:hint="@string/an_weight"
+                            android:textColorHint="@color/desc" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginVertical="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/background_popup_card"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="8dp"
+                        android:weightSum="1">
+
+                        <EditText
+                            android:id="@+id/an_len"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="0.8"
+                            android:background="@null"
+                            android:hint="@string/an_length"
+                            android:textColorHint="@color/desc" />
+
+                    </LinearLayout>
+                    <!--            input boxes end here-->
+                </LinearLayout>
+            </RelativeLayout>
+        </ScrollView>
+    </RelativeLayout>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:onClick="goToHome"
+        android:textSize="18dp"
+        android:layout_marginVertical="30dp"
+        android:layout_marginHorizontal="60dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@drawable/background_button"
+        android:textAllCaps="false"
+        android:text="@string/submit" />
+</androidx.constraintlayout.widget.ConstraintLayout>

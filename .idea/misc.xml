@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="app/src/main/res/drawable-hdpi/background_all_reg.xml" value="0.3296296296296296" />
+        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.346875" />
+        <entry key="app/src/main/res/drawable/background_all_reg.xml" value="0.3296296296296296" />
+        <entry key="app/src/main/res/drawable/background_back_btn.xml" value="0.32037037037037036" />
+        <entry key="app/src/main/res/drawable/background_button.xml" value="0.325" />
+        <entry key="app/src/main/res/drawable/background_edit_btn.xml" value="0.32037037037037036" />
+        <entry key="app/src/main/res/drawable/background_edit_text.xml" value="0.196875" />
+        <entry key="app/src/main/res/drawable/background_other.xml" value="0.3296296296296296" />
+        <entry key="app/src/main/res/drawable/background_overweight.xml" value="0.3296296296296296" />
+        <entry key="app/src/main/res/drawable/background_popup_card.xml" value="0.3296296296296296" />
+        <entry key="app/src/main/res/drawable/background_search.xml" value="0.32314814814814813" />
+        <entry key="app/src/main/res/drawable/background_stunt.xml" value="0.3296296296296296" />
+        <entry key="app/src/main/res/drawable/background_supp.xml" value="0.3296296296296296" />
+        <entry key="app/src/main/res/drawable/background_therap.xml" value="0.3296296296296296" />
+        <entry key="app/src/main/res/drawable/button_background.xml" value="0.3415384615384615" />
+        <entry key="app/src/main/res/drawable/component_area_search_result.xml" value="0.31296296296296294" />
+        <entry key="app/src/main/res/drawable/edit_text_background.xml" value="0.3415384615384615" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.346875" />
+        <entry key="app/src/main/res/drawable/popup_card_background.xml" value="0.3415384615384615" />
+        <entry key="app/src/main/res/layout/activity_anthropometric_measures.xml" value="0.3307291666666667" />
+        <entry key="app/src/main/res/layout/activity_anthropometry_prog.xml" value="0.3307291666666667" />
+        <entry key="app/src/main/res/layout/activity_area_details.xml" value="0.3307291666666667" />
+        <entry key="app/src/main/res/layout/activity_caregiver_info.xml" value="0.3307291666666667" />
+        <entry key="app/src/main/res/layout/activity_child_details.xml" value="0.3307291666666667" />
+        <entry key="app/src/main/res/layout/activity_demographic_info.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_history.xml" value="0.3307291666666667" />
+        <entry key="app/src/main/res/layout/activity_home.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.3307291666666667" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_mother_info.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/element_area_search_result.xml" value="0.3307291666666667" />
+        <entry key="app/src/main/res/menu/menu_edu_level.xml" value="0.3307291666666667" />
+        <entry key="app/src/main/res/menu/menu_ethnicity.xml" value="0.32564102564102565" />
+        <entry key="app/src/main/res/menu/menu_gender.xml" value="0.18072916666666666" />
+        <entry key="app/src/main/res/menu/menu_occupation.xml" value="0.3307291666666667" />
+        <entry key="app/src/main/res/menu/sex_pick_menu.xml" value="0.3307291666666667" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
