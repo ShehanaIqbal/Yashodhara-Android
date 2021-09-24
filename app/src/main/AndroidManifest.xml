@@ -13,6 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Yashodhara">
         <activity
+            android:name=".other_prog"
+            android:exported="true" />
+        <activity
             android:name=".area_details"
             android:exported="true" />
         <activity

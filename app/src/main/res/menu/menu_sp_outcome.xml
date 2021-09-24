@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/spo1"
+        android:title="Sent to Therapeutic Feeding"
+        android:visible="true" />
+    <item
+        android:id="@+id/spo2"
+        android:title="Defaulted"
+        android:visible="true" />
+    <item
+        android:id="@+id/spo3"
+        android:title="Left the area"
+        android:visible="true" />
+    <item
+        android:id="@+id/spo4"
+        android:title="Left due to completion of age 5"
+        android:visible="true" />
+    <item
+        android:id="@+id/spo5"
+        android:title="Died"
+        android:visible="true" />
+</menu>

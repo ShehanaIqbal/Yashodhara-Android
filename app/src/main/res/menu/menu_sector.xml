@@ -2,15 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/ge1"
-        android:title="Male"
+        android:id="@+id/s1"
+        android:title="Rural"
         android:visible="true" />
     <item
-        android:id="@+id/ge2"
-        android:title="Female"
+        android:id="@+id/s2"
+        android:title="Urban"
         android:visible="true" />
     <item
-        android:id="@+id/ge3"
-        android:title="Unspecified"
+        android:id="@+id/s3"
+        android:title="Estate"
         android:visible="true" />
 </menu>

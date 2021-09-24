@@ -2,12 +2,27 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/male"
-        android:title="Primary"
+        android:id="@+id/ed1"
+        android:title="No formal schooling"
         android:visible="true" />
     <item
-        android:id="@+id/female"
-        android:title="Secondary"
+        android:id="@+id/ed2"
+        android:title="Grade 1 to 5 (Not completed Grade 5/Some Primary education)"
         android:visible="true" />
-
+    <item
+        android:id="@+id/ed3"
+        android:title="Completed grade 5 (Completed Primary)"
+        android:visible="true" />
+    <item
+        android:id="@+id/ed4"
+        android:title="Grade 6 to 10 (Not completed Grade 10/Some Secondary education)"
+        android:visible="true" />
+    <item
+        android:id="@+id/ed5"
+        android:title="Completed grade 10 (Completed Secondary education)"
+        android:visible="true" />
+    <item
+        android:id="@+id/ed6"
+        android:title="Grade 11 or higher (Higher than Secondary education)"
+        android:visible="true" />
 </menu>

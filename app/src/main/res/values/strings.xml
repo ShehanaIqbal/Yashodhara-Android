@@ -89,4 +89,50 @@
     <string name="stunt">Stunting</string>
     <string name="other">Other health/ Non-health</string>
 
+
+    <!--   other program-->
+    <string name="ot_title">Other health/ Non-health program</string>
+    <string name="ot_doe"><font size="12">Date of enrolment</font></string>
+    <string name="ot_date"><font size="12">Date</font></string>
+
+<!--    stage 1-->
+    <string name="ot_mam"><font size="12">MAM</font></string>
+    <string name="ot_growth"><font size="12">Long standing growth faltering in green zone</font></string>
+    <string name="ot_underweight"><font size="12">Underweight</font></string>
+    <string name="ot_sam"><font size="12">SAM</font></string>
+    <string name="ot_overweight"><font size="12">Overweight/obesity </font></string>
+    <string name="ot_stunt"><font size="12">Stunting</font></string>
+<!--    stage 2-->
+    <string name="ot_poverty"><font size="12">Poverty and poor income Management</font></string>
+    <string name="ot_food_ins"><font size="12">Food insecurity</font></string>
+    <string name="ot_water"><font size="12">Inadequate water sanitation</font></string>
+    <string name="ot_care"><font size="12">Inadequate child care</font></string>
+    <string name="ot_disease"><font size="12">High prevalence of communicable diseases</font></string>
+
+
+    <!--   stunt program -->
+    <string name="st_title">Stunt program</string>
+    <string name="st_doe"><font size="12">Date of enrolment</font></string>
+    <string name="st_date"><font size="12">Date</font></string>
+<!--    stage 1-->
+    <string name="ot_enrol_type"><font size="12">Enrollment type</font></string>
+    <string name="ot_isReferred_to_hos"><font size="12">Referred to hospital</font></string>
+    <string name="ot_isSeen_by_pt"><font size="12">Seen by Paediatrician/ MO Nutrition</font></string>
+<!--    stage 2-->
+    <string name="is_give_cs"><font size="12">IYCF/Nutrition counselling given</font></string>
+
+    <!--    supplementary program-->
+    <string name="sp_title">Supplementary program</string>
+    <string name="sp_doe"><font size="12">Date of enrolment</font></string>
+    <string name="sp_date"><font size="12">Date</font></string>
+<!--    stage 1-->
+    <string name="sp_mam"><font size="12">MAM</font></string>
+    <string name="sp_growth"><font size="12">Long standing growth faltering in green zone</font></string>
+    <string name="sp_weight"><font size="12">Underweight</font></string>
+<!--    stage 2-->
+    <string name="sp_thriposha"><font size="12">On Thriposha</font></string>
+    <string name="sp_packets"><font size="12">Number of thriposha packets given</font></string>
+    <string name="sp_given_cs"><font size="12">IYCF/Nutrition counselling given</font></string>
+    <string name="sp_enrol_type"><font size="12">Enrollment type</font></string>
+    <string name="sp_outcome"><font size="12">Supplementary Feeding - Outcome</font></string>
 </resources>

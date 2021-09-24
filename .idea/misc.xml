@@ -33,11 +33,19 @@
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.3307291666666667" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_mother_info.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_other_prog.xml" value="0.379247572815534" />
         <entry key="app/src/main/res/layout/element_area_search_result.xml" value="0.3307291666666667" />
+        <entry key="app/src/main/res/menu/menu.xml" value="0.3275" />
         <entry key="app/src/main/res/menu/menu_edu_level.xml" value="0.3307291666666667" />
+        <entry key="app/src/main/res/menu/menu_enrollment_type.xml" value="0.3275" />
         <entry key="app/src/main/res/menu/menu_ethnicity.xml" value="0.32564102564102565" />
         <entry key="app/src/main/res/menu/menu_gender.xml" value="0.18072916666666666" />
         <entry key="app/src/main/res/menu/menu_occupation.xml" value="0.3307291666666667" />
+        <entry key="app/src/main/res/menu/menu_relationship_to_child.xml" value="0.3275" />
+        <entry key="app/src/main/res/menu/menu_sector.xml" value="0.3275" />
+        <entry key="app/src/main/res/menu/menu_sp_outcome.xml" value="0.3275" />
+        <entry key="app/src/main/res/menu/menu_st_outcome.xml" value="0.3275" />
+        <entry key="app/src/main/res/menu/menu_tp_outcome.xml" value="0.3275" />
         <entry key="app/src/main/res/menu/sex_pick_menu.xml" value="0.3307291666666667" />
       </map>
     </option>

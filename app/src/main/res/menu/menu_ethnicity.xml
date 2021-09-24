@@ -2,19 +2,23 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
 <item
-    android:id="@+id/sinhala"
-    android:title="Sinhala"
+    android:id="@+id/et1"
+    android:title="Sinhalese"
     android:visible="true" />
 <item
-    android:id="@+id/islam"
-    android:title="Islam"
+    android:id="@+id/et2"
+    android:title="Tamil"
     android:visible="true" />
 <item
-    android:id="@+id/hindu"
-    android:title="Hindu"
+    android:id="@+id/et3"
+    android:title="Muslim"
     android:visible="true" />
 <item
-    android:id="@+id/catholic"
-    android:title="Catholic"
+    android:id="@+id/et4"
+    android:title="Burgher"
+    android:visible="true" />
+<item
+    android:id="@+id/et5"
+    android:title="Other"
     android:visible="true" />
 </menu>

@@ -5,7 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.widget.Toast;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -14,20 +14,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import kotlin.jvm.internal.PropertyReference0Impl;
-
 public class Database extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "yashodhara.db";
     private static final int DATABASE_VERSION = 1;
 
-    private static final String TABLE_NAME = "child_details";
-
-    private static final String COLUMN_ID = "id";
-    private static final String COLUMN_NAME = "name";
-    private static final String COLUMN_GENDER = "gender";
-    private static final String COLUMN_DOB = "dob";
-    private static final String COLUMN_AGE = "age";
+    private static final String SYNC = "sync";
 
     // child table ---------------------------------------------------------------------------------
     private static final String T_CHILD = "child";
@@ -60,6 +52,7 @@ public class Database extends SQLiteOpenHelper {
     //program tables common columns ----------------------------------------------------------------
     private static final String COLUMN_DATE = "date";
     private static final String COLUMN_ENROL_DATE = "doe";
+    private static final String COLUMN_ID = "id";
 
     // anthropometry table -------------------------------------------------------------------------
     private static final String T_ANTHROPOMETRY = "anthropometry";
@@ -161,36 +154,32 @@ public class Database extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String createTableQuery = "CREATE TABLE " + TABLE_NAME + " ("+
-                COLUMN_ID+ " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COLUMN_NAME + " TEXT, "+
-                COLUMN_GENDER + " TEXT, "+
-                COLUMN_AGE + " INT, "+
-                COLUMN_DOB+" TEXT ) ;";
-        db.execSQL(createTableQuery);
 
         // create child table ----------------------------------------------------------------------
         String createChildTableQuery = "CREATE TABLE " + T_CHILD + " ("+
                 COLUMN_ENROL_DATE+ " VARCHAR, "+
+                SYNC+ " boolean, "+
                 CHILD_ID+ " VARCHAR PRIMARY KEY, ";
         int i=1;
-        for (String attr:
-             CHILD_ATTR) {
+        for (String attr: CHILD_ATTR) {
             createChildTableQuery += attr + " TEXT";
             if (i<CHILD_ATTR.size()){
                 createChildTableQuery+=", ";
             }else{
                 createChildTableQuery+=") ;";
             }
+            i++;
         }
+        Log.i("YYY","childquery: " + createChildTableQuery);
         db.execSQL(createChildTableQuery);
 
         // create anthropometry program table ------------------------------------------------------
         String createAnthropometryProgramTableQuery = "CREATE TABLE "+T_ANTHROPOMETRY+ " ("+
                 COLUMN_ID+ " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_ENROL_DATE+ " VARCHAR, "+
+                SYNC+ " boolean, "+
                 COLUMN_DATE+ " VARCHAR, "+
-                CHILD_ID+ " VARCHAR PRIMARY KEY, ";
+                CHILD_ID+ " VARCHAR, ";
         i=1;
         for (String attr: ANTHROPOMETRY_ATTR) {
             createAnthropometryProgramTableQuery += attr + " TEXT";
@@ -199,6 +188,7 @@ public class Database extends SQLiteOpenHelper {
             }else{
                 createAnthropometryProgramTableQuery+=") ;";
             }
+            i++;
         }
         db.execSQL(createAnthropometryProgramTableQuery);
 
@@ -207,9 +197,9 @@ public class Database extends SQLiteOpenHelper {
     String createOverweightProgramTableQuery = "CREATE TABLE "+T_OVERWEIGHT+ " ("+
             COLUMN_ID+ " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             COLUMN_ENROL_DATE+ " VARCHAR, "+
-
+            SYNC+ " boolean, "+
             COLUMN_DATE+ " VARCHAR, "+
-            CHILD_ID+ " VARCHAR PRIMARY KEY, ";
+            CHILD_ID+ " VARCHAR, ";
     i=1;
         for (String attr: OVERWEIGHT_ATTR) {
         createOverweightProgramTableQuery += attr + " TEXT";
@@ -218,6 +208,7 @@ public class Database extends SQLiteOpenHelper {
         }else{
             createOverweightProgramTableQuery+=") ;";
         }
+        i++;
     }
         db.execSQL(createOverweightProgramTableQuery);
 
@@ -225,8 +216,9 @@ public class Database extends SQLiteOpenHelper {
         String createSupplementaryProgramTableQuery = "CREATE TABLE "+T_SUPPLEMENTARY+ " ("+
                 COLUMN_ID+ " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_ENROL_DATE+ " VARCHAR, "+
+                SYNC+ " boolean, "+
                 COLUMN_DATE+ " VARCHAR, "+
-                CHILD_ID+ " VARCHAR PRIMARY KEY, ";
+                CHILD_ID+ " VARCHAR, ";
         i=1;
         for (String attr: SUPPLEMENTARY_ATTR) {
             createSupplementaryProgramTableQuery += attr + " TEXT";
@@ -235,6 +227,7 @@ public class Database extends SQLiteOpenHelper {
             }else{
                 createSupplementaryProgramTableQuery+=") ;";
             }
+            i++;
         }
         db.execSQL(createSupplementaryProgramTableQuery);
 
@@ -242,8 +235,9 @@ public class Database extends SQLiteOpenHelper {
         String createStuntProgramTableQuery = "CREATE TABLE "+T_STUNT+ " ("+
                 COLUMN_ID+ " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_ENROL_DATE+ " VARCHAR, "+
+                SYNC+ " boolean, "+
                 COLUMN_DATE+ " VARCHAR, "+
-                CHILD_ID+ " VARCHAR PRIMARY KEY, ";
+                CHILD_ID+ " VARCHAR, ";
         i=1;
         for (String attr: STUNT_ATTR) {
             createStuntProgramTableQuery += attr + " TEXT";
@@ -252,6 +246,7 @@ public class Database extends SQLiteOpenHelper {
             }else{
                 createStuntProgramTableQuery+=") ;";
             }
+            i++;
         }
         db.execSQL(createStuntProgramTableQuery);
 
@@ -259,8 +254,9 @@ public class Database extends SQLiteOpenHelper {
         String createOtherProgramTableQuery = "CREATE TABLE "+T_OTHER+ " ("+
                 COLUMN_ID+ " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_ENROL_DATE+ " VARCHAR, "+
+                SYNC+ " boolean, "+
                 COLUMN_DATE+ " VARCHAR, "+
-                CHILD_ID+ " VARCHAR PRIMARY KEY, ";
+                CHILD_ID+ " VARCHAR, ";
         i=1;
         for (String attr: OTHER_ATTR) {
             createOtherProgramTableQuery += attr + " TEXT";
@@ -269,6 +265,7 @@ public class Database extends SQLiteOpenHelper {
             }else{
                 createOtherProgramTableQuery+=") ;";
             }
+            i++;
         }
         db.execSQL(createOtherProgramTableQuery);
 
@@ -276,8 +273,9 @@ public class Database extends SQLiteOpenHelper {
         String createTherapeuticProgramTableQuery = "CREATE TABLE "+T_THERAPEUTIC+ " ("+
                 COLUMN_ID+ " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_ENROL_DATE+ " VARCHAR, "+
+                SYNC+ " boolean, "+
                 COLUMN_DATE+ " VARCHAR, "+
-                CHILD_ID+ " VARCHAR PRIMARY KEY, ";
+                CHILD_ID+ " VARCHAR , ";
         i=1;
         for (String attr: THERAPEUTIC_ATTR) {
             createTherapeuticProgramTableQuery += attr + " TEXT";
@@ -286,49 +284,25 @@ public class Database extends SQLiteOpenHelper {
             }else{
                 createTherapeuticProgramTableQuery+=") ;";
             }
+            i++;
         }
         db.execSQL(createTherapeuticProgramTableQuery);
 
     }
     @Override
-    public void onUpgrade(SQLiteDatabase db, int i, int i1) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+    public void onUpgrade(SQLiteDatabase db, int i, int k) {
+        db.execSQL("DROP TABLE IF EXISTS " + "child");
         onCreate(db);
     }
 
-    public void addChild(String name, String gender, String dob, double age){
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-
-        cv.put(COLUMN_NAME,name);
-        cv.put(COLUMN_AGE,age);
-        cv.put(COLUMN_DOB,dob);
-        cv.put(COLUMN_GENDER,gender);
-
-        long result = db.insert(TABLE_NAME,null,cv);
-        if (result==-1){
-            Toast.makeText(context, "Failed to save data", Toast.LENGTH_SHORT).show();
-        }else{
-            Toast.makeText(context, "Successfully saved data", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    public Cursor readAllChildData(){
-        String getChildDataQuery = "SELECT * FROM " + TABLE_NAME;
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = null;
-        if(db!=null){
-            cursor = db.rawQuery(getChildDataQuery,null);
-        }
-        return cursor;
-    }
-
     // add new entry to child table
-    public boolean enterChildToChild(HashMap<String,String> data,String childId){
+    public boolean enterChildToChild(HashMap<String,String> data,String childId,boolean sync, String date){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         Iterator entryIterator = data.entrySet().iterator();
         cv.put(CHILD_ID,childId);
+        cv.put(COLUMN_ENROL_DATE, date);
+        cv.put(SYNC,sync);
         for (Map.Entry entry : data.entrySet()) {
             cv.put(entry.getKey().toString(), entry.getValue().toString());
         }
@@ -339,43 +313,106 @@ public class Database extends SQLiteOpenHelper {
         return true;
     }
 
-    //add child to program
-    public boolean insertChildProgramInfo(HashMap<String,String> data,String program, String childId) {
-        SQLiteDatabase db = this.getWritableDatabase();
+    //read single child details - any table
+    public HashMap<String,String> readSingleChildData (String childId,String tableName, ArrayList<String> attrs){
+        SQLiteDatabase db= this.getReadableDatabase();
+        String query = "SELECT * FROM "+tableName+ " WHERE "+CHILD_ID+"="+childId;
+        Log.i("YYY",childId+ ": childSelectQuery :"+query);
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                // move the cursor to next row if there is any to read it's data
+                if (tableName.equals(T_CHILD)){
+                    HashMap<String, String> child = getSingleChildFromChild(cursor, attrs);
+                    return child;
+                }else {
+                    HashMap<String, String> child = getSingleChildFromChildFromProgram(cursor, attrs);
+                    return child;
+                }
+            }
+        }
+        return null;
+    }
 
-        ContentValues cv = new ContentValues();
-        cv.put(CHILD_ID, childId);
-        Iterator entryIterator = data.entrySet().iterator();
-        for (Map.Entry entry : data.entrySet()) {
-            cv.put(entry.getKey().toString(), entry.getValue().toString());
+    //read all children details - any table
+    public ArrayList<HashMap<String,String>> readAllChildrenData (String tableName, ArrayList<String> attrs){
+        SQLiteDatabase db= this.getReadableDatabase();
+        String query = "SELECT * FROM "+ T_CHILD;
+        Log.i("YYY",tableName+ ": childSelectQuery :"+query);
+        Cursor cursor = db.rawQuery(query, null);
+        ArrayList<HashMap<String,String>> allChildList = new ArrayList<>();
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                // move the cursor to next row if there is any to read it's data
+                if (tableName.equals(T_CHILD)){
+                    HashMap<String, String> child = getSingleChildFromChild(cursor, attrs);
+                    allChildList.add(child);
+                }else {
+                    HashMap<String, String> child = getSingleChildFromChildFromProgram(cursor, attrs);
+                    allChildList.add(child);
+                }
+            }
+            return allChildList;
         }
-        long result = 0;
+        return null;
+    }
 
-        if (program.equals(T_ANTHROPOMETRY)) {
-            result = db.insert(T_ANTHROPOMETRY, null, cv);
-        }
-        if (program.equals(T_OTHER)) {
-            result = db.insert(T_OTHER, null, cv);
-        }
-        if (program.equals(T_SUPPLEMENTARY) ){
-            result = db.insert(T_SUPPLEMENTARY, null, cv);
-        }
-        if (program.equals(T_STUNT)) {
-            result = db.insert(T_STUNT, null, cv);
-        }
-        if (program.equals(T_OVERWEIGHT)) {
-            result = db.insert(T_OVERWEIGHT, null, cv);
-        }
-        if (result == -1) {
-            return false;
-        }
 
-            return true;
+    private HashMap<String,String> getSingleChildFromChild(Cursor cursor, ArrayList<String> attrList) {
+        HashMap<String,String> child=new HashMap<>();
+
+        //get basic attributes
+        int doe = cursor.getColumnIndex(COLUMN_ENROL_DATE);
+        String doe_value = cursor.getString(doe);
+        child.put(COLUMN_ENROL_DATE,doe_value);
+        int sync = cursor.getColumnIndex(SYNC);
+        String sync_value = cursor.getString(sync);
+        child.put(SYNC,sync_value);
+        int c_id = cursor.getColumnIndex(CHILD_ID);
+        String cid_value = cursor.getString(c_id);
+        child.put(CHILD_ID,cid_value);
+
+        //get other attributes
+        for (String attr:attrList) {
+            int col_id = cursor.getColumnIndex(attr);
+            String value = cursor.getString(col_id);
+            child.put(attr,value);
         }
+        return child;
+    }
+
+    private HashMap<String,String> getSingleChildFromChildFromProgram(Cursor cursor,ArrayList<String> attrList) {
+        HashMap<String,String> child=new HashMap<>();
+
+        //get basic attributes
+        int id = cursor.getColumnIndex(COLUMN_ID);
+        String id_val = cursor.getString(id);
+        child.put(COLUMN_ID,id_val);
+        int doe = cursor.getColumnIndex(COLUMN_ENROL_DATE);
+        String doe_value = cursor.getString(doe);
+        child.put(COLUMN_ENROL_DATE,doe_value);
+        int sync = cursor.getColumnIndex(SYNC);
+        String sync_value = cursor.getString(sync);
+        child.put(SYNC,sync_value);
+        int date = cursor.getColumnIndex(COLUMN_DATE);
+        String date_value = cursor.getString(date);
+        child.put(COLUMN_DATE,date_value);
+        int c_id = cursor.getColumnIndex(CHILD_ID);
+        String cid_value = cursor.getString(c_id);
+        child.put(CHILD_ID,cid_value);
+
+        //get other attributes
+        for (String attr:attrList) {
+            int col_id = cursor.getColumnIndex(attr);
+            String value = cursor.getString(col_id);
+            child.put(attr,value);
+        }
+        return child;
+    }
 
         //update program info
         //add child to program
-        public boolean enterChildToProgram(HashMap<String,String> data,String program, String childId) {
+        public boolean enterChildToProgram(HashMap<String,String> data,String program, String childId,boolean sync, String date, String updatedDate) {
             SQLiteDatabase db = this.getWritableDatabase();
 
             ContentValues cv = new ContentValues();

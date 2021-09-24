@@ -8,12 +8,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.HashMap;
@@ -44,17 +45,208 @@ public class login extends AppCompatActivity {
     }
 
     public void onLoginClick(View view) {
-//        EditText username=findViewById(R.id.username);
-//        EditText password=findViewById(R.id.password);
-//        loginToApp(username.getText().toString(),password.getText().toString());
+//        progressDialog.setMessage("Checking Credentials...");
+//        progressDialog.setCancelable(false);
+//        progressDialog.show();
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                boolean loginSuccess = loginToApp1("mobile-dev1", "AbcD#4321");
+//            }
+//        }).start();
+//
+//        //remove loader
+//        progressDialog.dismiss();
+////        if (loginSuccess){
+////            goToHome();
+////        }else{
+////            Toast.makeText(this, "Login failed.", Toast.LENGTH_SHORT).show();
+////        }
+
         loginToApp("mobile-dev1", "AbcD#4321");
-//        goToHome();
     }
 
     private void goToHome() {
         Intent intent = new Intent(login.this, home.class);
         startActivity(intent);
 
+    }
+
+    private boolean loginToApp1(String username, String password) {
+
+        // login
+        String loginDetails = username + ":" + password;
+        String encodedString = Base64.getEncoder().encodeToString(loginDetails.getBytes());
+        Request request = new Request.Builder()
+                .url(baseUrl + "me")
+                .header("Authorization", "Basic " + encodedString)
+                .get()
+                .build();
+        try (Response response = client.newCall(request).execute()) {
+            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+
+            // area details
+            String res = Objects.requireNonNull(response.body()).string();
+            Log.i("YYY", response.body().string());
+            JSONObject obj = new JSONObject(res);
+            JSONObject area = (JSONObject) obj.getJSONArray("organisationUnits").get(0);
+            String areaId = area.getString("id");
+            getAreaDetails1(areaId, encodedString);
+            return true;
+        } catch (Exception e) {
+            Log.e("YYY",e.getMessage());
+            return false;
+        }
+    }
+
+
+    private void getAreaDetails1(String areaId, String authKey) throws IOException, JSONException {
+        if (!areaId.isEmpty()) {
+            Request request = new Request.Builder()
+                    .url(baseUrl + "trackedEntityInstances.json?ou=" + areaId)
+                    .header("Authorization", "Basic " + authKey)
+                    .get()
+                    .build();
+
+            try (Response response = client.newCall(request).execute()) {
+                if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+                        String areaDetails = Objects.requireNonNull(response.body()).string();
+                        Log.i("YYY", areaDetails);
+                        ArrayList<String> childList = new ArrayList<>();
+                        JSONArray area_arr = new JSONObject(areaDetails).getJSONArray("trackedEntityInstances");
+                        for (int i = 0; i < area_arr.length(); i++) {
+                            JSONObject object = area_arr.getJSONObject(i);
+                            childList.add(object.getString("trackedEntityInstance"));
+                        }
+                        Log.i("YYY", childList.toString());
+                        for (String child: childList) {
+                            getChildDetails1(child,authKey);
+                        }
+                        getProgramDetails1(areaId,authKey);
+            } catch (Exception e) {
+                throw e;
+            }
+        }
+    }
+
+    private void getChildDetails1(String childId, String authKey) throws IOException, JSONException {
+        if (!childId.isEmpty()) {
+            Request request = new Request.Builder()
+                    .url(baseUrl + "trackedEntityInstances/" + childId)
+                    .header("Authorization", "Basic " + authKey)
+                    .get()
+                    .build();
+            try (Response response = client.newCall(request).execute()) {
+                if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+
+                String childDetails = Objects.requireNonNull(response.body()).string();
+                Log.i("YYY", childDetails);
+                HashMap<String, String> childAttributes = new HashMap<>();
+                JSONObject child_obj = new JSONObject(childDetails);
+                String doe = child_obj.getString("created");
+
+                JSONArray child_attr = child_obj.getJSONArray("attributes");
+                for (int i = 0; i < child_attr.length(); i++) {
+                    JSONObject object = child_attr.getJSONObject(i);
+                    childAttributes.put(object.getString("attribute"), object.getString("value"));
+                }
+                Log.i("YYY", child_attr.toString());
+
+                // save child details
+                database.enterChildToChild(childAttributes, childId, true, doe);
+            } catch (Exception e) {
+                throw e;
+            }
+        }
+    }
+
+    private void getProgramDetails1(String areaId, String authKey) throws IOException, JSONException {
+
+        HashMap<String, String> prog_keys = new HashMap<>();
+        prog_keys.put("anthropometry", "hM6Yt9FQL0n");
+//        prog_keys.put("other","iUgzznPsePB");
+//        prog_keys.put("overweight","JsfNVX0hdq9");
+//        prog_keys.put("stunt","lSSNwBMiwrK");
+//        prog_keys.put("supplementary","tc6RsYbgGzm");
+//        prog_keys.put("therapeutic","CoGsKgEG4O0");
+
+        if (!areaId.isEmpty()) {
+            Iterator entryIterator = prog_keys.entrySet().iterator();
+            for (Map.Entry id : prog_keys.entrySet()) {
+                String programId = (String) id.getValue();
+                String programKey = (String) id.getKey();
+                Request request = new Request.Builder()
+                        .url(baseUrl + "trackedEntityInstances.json?ou=" + areaId + "&program=" + programId)
+                        .header("Authorization", "Basic " + authKey)
+                        .get()
+                        .build();
+                try (Response response = client.newCall(request).execute()) {
+                    if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+                    String progDetails = Objects.requireNonNull(response.body()).string();
+                    Log.i("YYY", progDetails);
+                    ArrayList<String> childList = new ArrayList<>();
+                    JSONArray area_arr = new JSONObject(progDetails).getJSONArray("trackedEntityInstances");
+                    for (int i = 0; i < area_arr.length(); i++) {
+                        JSONObject object = area_arr.getJSONObject(i);
+                        childList.add(object.getString("trackedEntityInstance"));
+                    }
+                    Log.i("YYY", childList.toString());
+                    for (String child : childList) {
+                        getChildProgramDetails1(child, areaId, programKey, authKey);
+                    }
+                } catch (Exception e) {
+                    throw e;
+                }
+            }
+        }
+    }
+
+    private void getChildProgramDetails1(String childId, String areaId, String programId, String authKey) throws IOException, JSONException {
+        if (!childId.isEmpty()) {
+            Request request = new Request.Builder()
+                    .url(baseUrl + "events.json?tei="+childId+"&program="+programId+"&ou="+areaId)
+                    .header("Authorization", "Basic " + authKey)
+                    .get()
+                    .build();
+            try (Response response = client.newCall(request).execute()) {
+                if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+                String childProgramDetails = Objects.requireNonNull(response.body()).string();
+                Log.i("YYY", childProgramDetails);
+                JSONObject child_obj = new JSONObject(childProgramDetails);
+                JSONArray prog_children = child_obj.getJSONArray("events");
+
+                for (int i = 0; i < prog_children.length(); i++) {
+                    HashMap<String, String> childProgAttributes = new HashMap<>();
+
+                    JSONObject object = prog_children.getJSONObject(i);
+                    String doe = object.getString("created");
+                    JSONArray prog_child_updates = object.getJSONArray("dataValues");
+
+                    String updatedDate = object.getString("lastUpdated");
+
+                    for (int j = 0; j < prog_child_updates.length(); j++) {
+                        JSONObject update = prog_child_updates.getJSONObject(0);
+                        if (update != null) {
+                            childProgAttributes.put(update.getString("dataElement"), update.getString("value"));
+                        }
+                    }
+                    // save child details
+                    boolean isSuccess = database.enterChildToProgram(childProgAttributes, programId, childId, true, doe, updatedDate);
+                    if (isSuccess) {
+                        runOnUiThread(() -> {
+                            progressDialog.show();
+                            progressDialog.setMessage("Successfully saved a child program data");
+                        });
+                    }
+
+                }
+                Log.i("YYY", childProgramDetails.toString());
+                // all sync done
+                // go home
+            } catch (Exception e) {
+                throw e;
+            }
+        }
     }
 
     private void loginToApp(String username, String password) {
@@ -165,16 +357,17 @@ public class login extends AppCompatActivity {
                         Log.i("YYY", childDetails);
                         HashMap<String,String> childAttributes = new HashMap<>();
                         JSONObject child_obj = new JSONObject(childDetails);
-                        childAttributes.put("doe",child_obj.getString("created"));
+                        String doe=child_obj.getString("created");
 
                         JSONArray child_attr = child_obj.getJSONArray("attributes");
                         for (int i = 0; i < child_attr.length(); i++) {
                             JSONObject object = child_attr.getJSONObject(i);
                             childAttributes.put(object.getString("attribute"),object.getString("value"));
                         }
-                        Log.i("YYY", child_attr.toString());
+                        Log.i("YYY", childId+" : childAttr :"+childAttributes.toString());
+
                         // save child details
-                        database.enterChildToChild(childAttributes, childId);
+                        database.enterChildToChild(childAttributes, childId, true, doe);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -226,7 +419,7 @@ public class login extends AppCompatActivity {
                             }
                             Log.i("YYY", childList.toString());
                             for (String child: childList) {
-                                getChildProgramDetails(child,areaId,programKey,authKey);
+                                getChildProgramDetails(child,areaId,programId, programKey,authKey);
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -248,7 +441,7 @@ public class login extends AppCompatActivity {
         }
     }
 
-    private void getChildProgramDetails(String childId, String areaId, String programId, String authKey){
+    private void getChildProgramDetails(String childId, String areaId, String programId, String programKey,String authKey){
         if (!childId.isEmpty()) {
             Request childProgramDetails = new Request.Builder()
                     .url(baseUrl + "events.json?tei="+childId+"&program="+programId+"&ou="+areaId)
@@ -264,33 +457,44 @@ public class login extends AppCompatActivity {
                         Log.i("YYY", childProgramDetails);
                         JSONObject child_obj = new JSONObject(childProgramDetails);
                         JSONArray prog_children = child_obj.getJSONArray("events");
+                        if (prog_children!=null) {
+                            for (int i = 0; i < prog_children.length(); i++) {
+                                HashMap<String, String> childProgAttributes = new HashMap<>();
 
-                        for (int i = 0; i < prog_children.length(); i++) {
-                            HashMap<String,String> childProgAttributes = new HashMap<>();
+                                JSONObject object = prog_children.getJSONObject(i);
+                                String doe = object.getString("created");
+                                JSONArray prog_child_updates = object.getJSONArray("dataValues");
 
-                            JSONObject object = prog_children.getJSONObject(i);
-                            JSONArray prog_child_updates = object.getJSONArray("dataValues");
+                                String updatedDate = object.getString("lastUpdated");
 
-                            childProgAttributes.put("date",object.getString("lastUpdated"));
+                                if (prog_child_updates!=null) {
 
-                            for (int j=0; j<prog_child_updates.length(); j++) {
-                                JSONObject update = prog_child_updates.getJSONObject(0);
-                                if (update!=null) {
-                                    childProgAttributes.put(update.getString("dataElement"), update.getString("value"));
+                                    for (int j = 0; j < prog_child_updates.length(); j++) {
+                                        JSONObject update = prog_child_updates.getJSONObject(0);
+                                        if (update != null) {
+                                            childProgAttributes.put(update.getString("dataElement"), update.getString("value"));
+                                        }
+                                    }
+
+                                    // save child details
+                                    boolean isSuccess = database.enterChildToProgram(childProgAttributes, programKey, childId,true,doe,updatedDate);
+
+                                    if (isSuccess) {
+                                        runOnUiThread(() -> {
+                                            progressDialog.show();
+                                            progressDialog.setMessage("Successfully saved a child program data");
+                                        });
+                                    }
                                 }
                             }
-                            // save child details
-                            boolean isSuccess = database.enterChildToProgram(childProgAttributes, programId, childId);
-                            if (isSuccess){
-                                runOnUiThread(() -> {
-                                    progressDialog.show();
-                                    progressDialog.setMessage("Successfully saved a child program data");
-                                });
-                            }
-
+                            Log.i("YYY", childProgramDetails.toString());
                         }
-                        Log.i("YYY", childProgramDetails.toString());
-
+                        runOnUiThread(() -> {
+                            progressDialog.show();
+                            progressDialog.setMessage("Synced data successfully!");
+                        });
+                        database.readSingleChildData(childId, Constants.T_CHILD, Constants.CHILD_ATTR);
+                        goToHome();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -306,4 +510,5 @@ public class login extends AppCompatActivity {
             });
         }
     }
+
 }

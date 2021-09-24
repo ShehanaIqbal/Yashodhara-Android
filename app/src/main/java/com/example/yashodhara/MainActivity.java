@@ -37,14 +37,14 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void displayData(){
-        Database database = new Database(MainActivity.this);
-        Cursor cursor = database.readAllChildData();
-        if (cursor.getCount()==0){
-            Toast.makeText(MainActivity.this, "Failed to save data", Toast.LENGTH_SHORT).show();
-        }else{
-//        read data
-        }
-    }
+//    private void displayData(){
+//        Database database = new Database(MainActivity.this);
+//        Cursor cursor = database.readAllChildData();
+//        if (cursor.getCount()==0){
+//            Toast.makeText(MainActivity.this, "Failed to save data", Toast.LENGTH_SHORT).show();
+//        }else{
+////        read data
+//        }
+//    }
 
 }
