@@ -17,6 +17,7 @@
         <entry key="app/src/main/res/drawable/background_stunt.xml" value="0.3296296296296296" />
         <entry key="app/src/main/res/drawable/background_supp.xml" value="0.3296296296296296" />
         <entry key="app/src/main/res/drawable/background_therap.xml" value="0.3296296296296296" />
+        <entry key="app/src/main/res/drawable/background_white_button.xml" value="0.40875" />
         <entry key="app/src/main/res/drawable/button_background.xml" value="0.3415384615384615" />
         <entry key="app/src/main/res/drawable/component_area_search_result.xml" value="0.31296296296296294" />
         <entry key="app/src/main/res/drawable/edit_text_background.xml" value="0.3415384615384615" />
@@ -33,7 +34,8 @@
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.3307291666666667" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_mother_info.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/activity_other_prog.xml" value="0.379247572815534" />
+        <entry key="app/src/main/res/layout/activity_other_prog.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_therapeutic_prog.xml" value="0.33" />
         <entry key="app/src/main/res/layout/element_area_search_result.xml" value="0.3307291666666667" />
         <entry key="app/src/main/res/menu/menu.xml" value="0.3275" />
         <entry key="app/src/main/res/menu/menu_edu_level.xml" value="0.3307291666666667" />
